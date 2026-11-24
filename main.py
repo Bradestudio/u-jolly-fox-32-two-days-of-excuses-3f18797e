@@ -22,6 +22,8 @@ def validate(text: str) -> str:
     """Enforce the gate: 1-200 code points, one line, not whitespace-only."""
     if not text or not text.strip():
         raise ValueError("excuse must not be empty or whitespace-only")
+    if text != text.strip():
+        raise ValueError("excuse must not start or end with whitespace")
     if len(text) > MAX_CHARS:
         raise ValueError(
             f"excuse is {len(text)} chars, over the {MAX_CHARS} limit"
@@ -48,7 +50,7 @@ def main() -> int:
         back = fh.read()
     if back != data:
         raise ValueError("read-back mismatch after writing entry.txt")
-    print(f"wrote {len(text)} chars to {OUTPUT_PATH}")
+    print(f"wrote {len(text)} chars ({len(data)} bytes) to {OUTPUT_PATH}")
     return 0
 
 
